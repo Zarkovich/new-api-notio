@@ -7,6 +7,11 @@ const notion = new DadosNotion();
 
 const PORT = process.env.PORT || 3000;
 
+app.use((req, res, next) => {
+    res.setHeader('Access-Control-Allow-Origin', '*');
+    next();
+});
+
 app.get('/projects', async (req, res) => {
     const query = await notion.getProjects();
 
