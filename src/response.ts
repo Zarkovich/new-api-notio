@@ -2,22 +2,27 @@ import { PropertiesSkills, PropertiesProjects } from './types';
 
 export function GetSkills(query: any[]) {
     const list: PropertiesSkills[] = query.map((row) => {
+        const titleCell = row.properties.title;
         const linguagemCell = row.properties.linguagem;
         const descriptionCell = row.properties.description;
 
         const isLinguagem = linguagemCell.type === 'url';
         const isDescription = descriptionCell.type === 'rich_text';
+        const isTitle = titleCell.type === 'title';
 
-        if (isLinguagem && isDescription) {
+        if (isLinguagem && isDescription && isTitle) {
             const linguagem = linguagemCell.url ?? '';
             const description = descriptionCell.rich_text[0]
                 ? descriptionCell.rich_text[0].plain_text
                 : null;
+            const title = titleCell.title[0]
+                ? titleCell.title[0].plain_text
+                : null;
 
-            return { linguagem, description };
+            return { linguagem, description, title };
         }
 
-        return { linguagem: '', description: '' };
+        return { linguagem: '', description: '', title: '' };
     });
 
     return list;
